@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_071039) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_03_020220) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,4 +31,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_071039) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_nightfarers_on_name", unique: true
   end
+
+  create_table "rotation_night_lords", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "night_lord_id", null: false
+    t.bigint "rotation_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["night_lord_id"], name: "index_rotation_night_lords_on_night_lord_id"
+    t.index ["rotation_id", "night_lord_id"], name: "index_rotation_night_lords_unique", unique: true
+    t.index ["rotation_id"], name: "index_rotation_night_lords_on_rotation_id"
+  end
+
+  create_table "rotations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "effective_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["effective_at"], name: "index_rotations_on_effective_at", unique: true
+  end
+
+  add_foreign_key "rotation_night_lords", "night_lords"
+  add_foreign_key "rotation_night_lords", "rotations"
 end
