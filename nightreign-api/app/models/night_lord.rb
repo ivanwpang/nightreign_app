@@ -1,0 +1,2 @@
+class NightLord < ApplicationRecord
+end
